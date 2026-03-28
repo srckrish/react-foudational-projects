@@ -21,7 +21,7 @@ function App() {
   return (
     <>
       {data && data.length > 0 ? (
-        <div className="wrapper mx-auto max-w-2xl my-10 px-4">
+        <div className="wrapper mx-auto max-w-2xl my-10 px-4 overflow-hidden">
           <div className="container shadow-cyan-200 shadow-xl rounded-2xl border border-gray-400 overflow-hidden">
             <div className="px-4 py-3 bg-[#fbfbfc] text-sm font-medium border-b border-gray-300 flex justify-between items-center">
               <p>{data.length} results </p>
@@ -60,12 +60,18 @@ function App() {
                         +
                       </span>
                     </button>
-                    {singleSelection === dataItem.id ||
-                    multiSelection.includes(dataItem.id) ? (
-                      <p className="content pb-5 text-gray-600 transition-all duration-300 ease-in-out">
+                    <div
+                      className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                        singleSelection === dataItem.id ||
+                        multiSelection.includes(dataItem.id)
+                          ? "max-h-60"
+                          : "max-h-0"
+                      }`}
+                    >
+                      <p className="content pb-5 text-gray-600">
                         {dataItem.answer}
                       </p>
-                    ) : null}
+                    </div>
                   </div>
                 );
               })}
