@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 
 function App() {
   const [color, setColor] = useState("#000000");
@@ -28,25 +29,37 @@ function App() {
     console.log(rgbColor);
   };
 
+  const handleColorType = () => {
+    if (typeOfColor === "hex") handleHexColorGenerator();
+    else handleRgbColorGenerator();
+  };
+
   return (
     <div
       className="h-screen w-full overflow-hidden relative"
       style={{ backgroundColor: color }}
     >
       <div className="flex justify-center items-end h-full gap-4 py-5">
-        <button
-          className="text-2xl bg-cyan-600 border-2 p-5 rounded-2xl hover:bg-red-600 text-white font-extrabold"
-          onClick={handleHexColorGenerator}
-        >
-          Generate Hex Color
-        </button>
-
-        <button
-          className="text-2xl bg-cyan-600 border-2 p-5 rounded-2xl hover:bg-red-600 text-white font-extrabold"
-          onClick={handleRgbColorGenerator}
-        >
-          Generate RGB Color
-        </button>
+        <div className="bg-white text-green-800 rounded-full text-2xl font-medium flex justify-around items-center gap-5 px-5 py-2">
+          <button
+            className={`rounded-full px-5 py-2 ${typeOfColor === "hex" ? "bg-green-500 text-white" : "hover:bg-green-500 hover:text-white"}`}
+            onClick={() => setTypeOfColor("hex")}
+          >
+            Hex Color
+          </button>
+          <button
+            className={`rounded-full px-5 py-2 ${typeOfColor === "rgb" ? "bg-green-500 text-white" : "hover:bg-green-500 hover:text-white"}`}
+            onClick={() => setTypeOfColor("rgb")}
+          >
+            RGB Color
+          </button>
+          <button
+            className="rounded-full px-5 py-2 hover:bg-blue-500 hover:text-white cursor-pointer"
+            onClick={() => handleColorType()}
+          >
+            Generate
+          </button>
+        </div>
       </div>
     </div>
   );
