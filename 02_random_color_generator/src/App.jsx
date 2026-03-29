@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function App() {
   const [color, setColor] = useState("#000000");
+  const [typeOfColor, setTypeOfColor] = useState("hex");
 
   const randomColorUtitity = (length) => {
     return Math.floor(Math.random() * length);
@@ -17,19 +18,34 @@ function App() {
     console.log(`Hex Color: ${hexColor}`);
   };
 
+  const handleRgbColorGenerator = () => {
+    const r = randomColorUtitity(256);
+    const g = randomColorUtitity(256);
+    const b = randomColorUtitity(256);
+
+    let rgbColor = `rgb(${r}, ${g}, ${b})`;
+    setColor(rgbColor);
+    console.log(rgbColor);
+  };
+
   return (
     <div
-      className={`h-screen w-full overflow-hidden `}
+      className="h-screen w-full overflow-hidden relative"
       style={{ backgroundColor: color }}
     >
-      <div className="inset-0 bottom-5 flex justify-center align-center">
+      <div className="flex justify-center items-end h-full gap-4 py-5">
         <button
-          className="absolute bottom-5 text-2xl bg-cyan-600 mx-auto border-2 p-5 rounded-2xl  text-center hover:bg-red-600 text-white font-extrabold"
-          onClick={() => {
-            handleHexColorGenerator();
-          }}
+          className="text-2xl bg-cyan-600 border-2 p-5 rounded-2xl hover:bg-red-600 text-white font-extrabold"
+          onClick={handleHexColorGenerator}
         >
-          Click Me
+          Generate Hex Color
+        </button>
+
+        <button
+          className="text-2xl bg-cyan-600 border-2 p-5 rounded-2xl hover:bg-red-600 text-white font-extrabold"
+          onClick={handleRgbColorGenerator}
+        >
+          Generate RGB Color
         </button>
       </div>
     </div>
