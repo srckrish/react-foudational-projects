@@ -5,6 +5,6 @@ import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App url={`https://dummyjson.com/products`} limit={20} />
+    <App url={`https://dummyjson.com/products`} />
   </StrictMode>,
 );
