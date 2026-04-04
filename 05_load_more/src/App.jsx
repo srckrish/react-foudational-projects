@@ -9,13 +9,11 @@ function App({ url }) {
   async function fetchProducts(getUrl) {
     try {
       setLoading(true);
-      const response = await fetch(
-        `${getUrl}?limit=20&skip=${count === 0 ? 0 : count * 20}`,
-      );
+      const response = await fetch(`${getUrl}?limit=20&skip=${count * 20}`);
       const data = await response.json();
 
       if (data && data.products && data.products.length) {
-        setProducts(data.products);
+        setProducts((prevData) => [...prevData, ...data.products]);
         setLoading(false);
       }
     } catch (e) {
@@ -24,27 +22,27 @@ function App({ url }) {
     }
   }
 
+  const handleLoadMore = () => {
+    setCount(count + 1);
+  };
+
   useEffect(() => {
     if (url !== "") fetchProducts(url);
   }, [url, count]);
-
-  console.log(products);
 
   useEffect(() => {
     if (products && products.length === 100) setIsButtonDisabled(true);
   }, [products]);
 
-  if (loading) {
-    return <div>Loading data...</div>;
-  }
-
   if (errorMessage !== null) {
     return <div>Error Occured! {errorMessage} </div>;
   }
 
+  console.log(count);
+
   return (
-    <div className="wrapper mx-auto max-w-7xl mt-10">
-      <div className="container grid grid-cols-5">
+    <div className="wrapper mx-auto max-w-7xl mt-10 px-2">
+      <div className="container grid grid-cols-2 md:grid-cols-5">
         {products && products.length
           ? products.map((productItem) => {
               return (
@@ -64,12 +62,23 @@ function App({ url }) {
             })
           : null}
       </div>
-      <div>
-        <button disabled={isButtonDisabled} onClick={() => setCount(count + 1)}>
-          Load More Products
-        </button>
+      <div className="flex justify-center items-center flex-col gap-2 mt-10">
+        {loading && <p>Loading more products...</p>}
+        {!loading ? (
+          <button
+            className={`p-4 rounded-xl  font-bold ${isButtonDisabled ? "bg-gray-400 text-white cursor-not-allowed" : "bg-blue-400 text-white hover:bg-green-400"}`}
+            disabled={isButtonDisabled}
+            onClick={() => {
+              handleLoadMore();
+            }}
+          >
+            Load More Products
+          </button>
+        ) : null}
         {isButtonDisabled ? (
-          <span> You've reached to 100 products </span>
+          <span className="text-gray-400 cursor-not-allowed font-bold p-3 rounded-xl">
+            You've reached to 100 products{" "}
+          </span>
         ) : null}
       </div>
     </div>
