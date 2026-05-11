@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsArrowLeftCircleFill, BsArrowRightCircleFill } from "react-icons/bs";
+import xhrIntro from "./xhrIntro";
 
 function App({ url, page, limit }) {
   const [images, setImages] = useState([]);
@@ -32,7 +33,10 @@ function App({ url, page, limit }) {
   }
 
   useEffect(() => {
-    if (url !== "") fetchImages(url);
+    if (url !== "") {
+      fetchImages(url);
+      xhrIntro();
+    }
   }, [url]);
 
   console.log(images);
