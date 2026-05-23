@@ -1,0 +1,92 @@
+[
+    {
+      "id": 1,
+      "label": "Home",
+      "to": "/home"
+    },
+    {
+      "id": 2,
+      "label": "Products",
+      "to": "/products",
+      "children": [
+        {
+          "id": 21,
+          "label": "Electronics",
+          "to": "/products/electronics",
+          "children": [
+            {
+              "id": 211,
+              "label": "Mobiles",
+              "to": "/products/electronics/mobiles"
+            },
+            {
+              "id": 212,
+              "label": "Laptops",
+              "to": "/products/electronics/laptops"
+            },
+            {
+              "id": 213,
+              "label": "Accessories",
+              "to": "/products/electronics/accessories",
+              "children": [
+                {
+                  "id": 2131,
+                  "label": "Chargers",
+                  "to": "/products/electronics/accessories/chargers"
+                },
+                {
+                  "id": 2132,
+                  "label": "Headphones",
+                  "to": "/products/electronics/accessories/headphones"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 22,
+          "label": "Clothing",
+          "to": "/products/clothing",
+          "children": [
+            {
+              "id": 221,
+              "label": "Men",
+              "to": "/products/clothing/men"
+            },
+            {
+              "id": 222,
+              "label": "Women",
+              "to": "/products/clothing/women"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "label": "Services",
+      "to": "/services",
+      "children": [
+        {
+          "id": 31,
+          "label": "Web Development",
+          "to": "/services/web-development"
+        },
+        {
+          "id": 32,
+          "label": "App Development",
+          "to": "/services/app-development"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "label": "About",
+      "to": "/about"
+    },
+    {
+      "id": 5,
+      "label": "Contact",
+      "to": "/contact"
+    }
+  ]
