@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import MenuData from "./MenuData.jsx";
 
 createRoot(document.getElementById("root")).render(
-   <StrictMode>
-  <App menus={MenuData} />,
-  // </StrictMode>,
+  <StrictMode>
+    <App menus={MenuData} />
+  </StrictMode>,
 );
