@@ -30,7 +30,7 @@ function App() {
         <button
           disabled={inputValue.trim() !== "" ? false : true}
           onClick={() => handleGenerateQRCode()}
-          className={`bg-cyan-500 text-white font-semibold p-2 rounded-lg cursor-pointer hover:bg-green-700 `}
+          className={`bg-cyan-500 text-white font-semibold p-2 rounded-lg cursor-pointer hover:bg-green-700 ${inputValue.trim() === "" ? "bg-gray-400 pointer-events-none" : ""} `}
         >
           Generate
         </button>
