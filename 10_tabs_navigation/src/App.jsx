@@ -1,7 +1,8 @@
 import React from "react";
+import TabData from "./TabData";
 
 function App() {
-  return <div className="wrapper">App</div>;
+  return <TabData />;
 }
 
 export default App;
