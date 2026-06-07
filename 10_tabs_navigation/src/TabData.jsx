@@ -2,7 +2,7 @@ import React from "react";
 import TabItem from "./TabItem";
 
 function RandomData() {
-  return "Hi, this is Random Data from Random function in test 4";
+  return "I am Mr. Random from Random function";
 }
 
 function TabData() {
@@ -15,12 +15,12 @@ function TabData() {
     {
       id: "2",
       label: "Tab 2",
-      content: "Hi, this is Tab 2",
+      content: "You are now tab 2 now :)",
     },
     {
       id: "3",
       label: "Tab 3",
-      content: "Hi, this is Tab 3",
+      content: "Hey, you clicked me! I am Tab 3",
     },
     {
       id: "4",
@@ -29,7 +29,11 @@ function TabData() {
     },
   ];
 
-  return <TabItem tabData={TabList} />;
+  function handleChange(currentIndex) {
+    console.log(currentIndex);
+  }
+
+  return <TabItem tabData={TabList} onChange={(index) => handleChange(index)} />;
 }
 
 export default TabData;
