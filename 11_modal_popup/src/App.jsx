@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import ModalPage from "./ModalPage";
 
 function App() {
-  return (
-    <div className='wrapper bg-red-400'>App</div>
-  )
+  return <ModalPage />;
 }
 
-export default App
+export default App;
