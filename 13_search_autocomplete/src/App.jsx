@@ -64,13 +64,16 @@ function App() {
   }
 
   return (
-    <div className="wrapper">
-      <div className="container">
+    <div className="wrapper border-2 border-gray-300 rounded-md p-4 max-w-2xl mx-auto mt-10">
+      <div className="container text-center mb-4 shadow-md p-2 rounded-md border border-gray-300">
         <input
           type="text"
-          placeholder="Search UserName"
+          className="border-2 border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Search UserName..."
           onChange={(e) => handleInputChange(e)}
           value={inputValue}
+          name="username"
+          autoComplete="off"
         />
       </div>
       {showSuggestions && (
