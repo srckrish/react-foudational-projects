@@ -23,11 +23,12 @@ function useTictacToe() {
     for (let i = 0; i < winningPatterns.length; i++) {
       const [a, b, c] = winningPatterns[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c])
-        return squares[a];
+        return { winner: squares[a], pattern: winningPatterns[i] };
     }
-    return null;
+    return { winner: null, pattern: null };
   };
-  const winner = calculateWinner();
+  const { winner, pattern } = calculateWinner();
+
   const handleSquareClick = (getCurrentSquare) => {
     if (winner || squares[getCurrentSquare]) return;
 
@@ -53,6 +54,8 @@ function useTictacToe() {
     handleSquareClick,
     getStatusMessage,
     handleResetButton,
+    winner,
+    pattern,
   };
 }
 
