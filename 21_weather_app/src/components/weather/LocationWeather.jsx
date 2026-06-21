@@ -41,7 +41,7 @@ function LocationWeather({ weatherData }) {
           <div className="rounded-2xl bg-sky-500/10 p-5 text-center shadow-lg">
             <p className="text-sm text-slate-400">Temperature</p>
             <h2 className="mt-2 text-3xl font-bold text-sky-400">
-              {weatherData?.main?.temp - 273.15}°C
+              {(weatherData?.main?.temp - 273.15).toFixed(2)}°C
             </h2>
           </div>
 
@@ -74,7 +74,7 @@ function LocationWeather({ weatherData }) {
             Wind Speed
           </p>
           <h3 className="mt-2 text-xl font-semibold text-cyan-300">
-            {weatherData?.wind?.speed} m/s
+            {(weatherData?.wind?.speed).toFixed(2)} m/s
           </h3>
         </div>
       </div>
