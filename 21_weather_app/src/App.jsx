@@ -1,7 +1,8 @@
 import React from "react";
+import Weather from "./components/weather";
 
 function App() {
-  return <div className="wrapper bg-red-500">App</div>;
+  return <Weather />;
 }
 
 export default App;
