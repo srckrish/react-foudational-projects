@@ -1,29 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Search from "../search";
 
 export default function Weather() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [searchData, setSearchData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [showSearchData, setShowSearchData] = useState(false);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   async function fetchSearchData(query) {
     try {
       setLoading(true);
       setErrorMessage(null);
       const response = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=2&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
+        `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=3&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
       );
 
-      if (!response.ok) throw new Error(response.statusText);
+      if (!response.ok) setErrorMessage(response.statusText);
 
       const data = await response.json();
 
-      console.log(data);
+      if (data && data.length > 0) {
+        setShowSearchData(true);
+        setSearchData(data);
+      }
 
-      const lat = data[0]?.lat;
-      const lon = data[0]?.lon;
-      await fetchWeatherData(lat, lon);
+      if (data && data.length === 0) {
+        setErrorMessage("No Location Found...");
+      }
+
+      console.log(data);
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -39,13 +48,14 @@ export default function Weather() {
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
       );
-      const data = await response.json();
+      if (!response.ok) setErrorMessage(response.statusText);
 
-      if (!response.ok) throw new Error(response.statusText);
+      const data = await response.json();
 
       console.log(data);
 
       setWeatherData(data);
+      setShowSearchData(false);
     } catch (error) {
       console.log(error);
       setErrorMessage(error.message);
@@ -54,9 +64,14 @@ export default function Weather() {
     }
   }
 
-  const handleSearch = () => {
-    fetchSearchData(search);
-  };
+  function handleClick() {
+    if (search !== "") fetchSearchData(search);
+  }
+
+  useEffect(() => {
+    if (latitude !== null && longitude !== null)
+      fetchWeatherData(latitude, longitude);
+  }, [latitude, longitude]);
 
   function getCurrentDate() {
     const date = new Date();
@@ -68,17 +83,13 @@ export default function Weather() {
     });
   }
 
-  if (errorMessage) {
-    return <div>{errorMessage}</div>;
-  }
-
   return (
     <div className="min-h-screen w-full bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col items-center justify-center px-6 py-10 text-white">
       <Search
         search={search}
         setSearch={setSearch}
-        handleSearch={handleSearch}
         weatherData={weatherData}
+        handleClick={handleClick}
         setWeatherData={setWeatherData}
       />
 
@@ -87,6 +98,49 @@ export default function Weather() {
           Loading...
         </div>
       ) : null}
+
+      {errorMessage ? (
+        <div className="mt-8 animate-pulse text-lg font-semibold text-red-400">
+          {errorMessage} <br />
+          Please try again.....
+        </div>
+      ) : null}
+
+      {searchData !== null && showSearchData && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full max-w-5xl mt-20">
+          {searchData.map((data) => (
+            <div
+              key={`${data.lat}-${data.lon}`}
+              className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 shadow-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
+            >
+              <div>
+                <h3 className="text-lg font-semibold text-white">
+                  {data?.name}
+                </h3>
+
+                <p className="text-sm text-slate-400">
+                  {data?.state ? `${data.state}, ` : ""}
+                  {data?.country}
+                </p>
+
+                <p className="mt-1 text-xs text-slate-500">
+                  Lat: {data?.lat?.toFixed(2)} | Lon: {data?.lon?.toFixed(2)}
+                </p>
+              </div>
+
+              <button
+                onClick={() => {
+                  setLatitude(data?.lat);
+                  setLongitude(data?.lon);
+                }}
+                className="w-full rounded-xl bg-sky-500 px-4 py-2 font-medium text-white shadow-lg shadow-sky-500/30 transition-all duration-300 hover:bg-sky-400 hover:scale-105 active:scale-95"
+              >
+                Select
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       {!loading && weatherData !== null ? (
         <>

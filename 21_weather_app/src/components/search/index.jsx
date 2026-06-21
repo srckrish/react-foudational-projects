@@ -1,7 +1,7 @@
 export default function Search({
   search,
   setSearch,
-  handleSearch,
+  handleClick,
   weatherData,
   setWeatherData,
 }) {
@@ -43,40 +43,14 @@ export default function Search({
         {weatherData ? (
           <button
             onClick={handleClearSearch}
-            className="
-              rounded-2xl
-              bg-red-500
-              px-6 py-3
-              font-semibold
-              text-white
-              shadow-lg
-              shadow-red-500/30
-              transition-all
-              duration-300
-              hover:bg-red-600
-              hover:scale-105
-              active:scale-95
-            "
+            className="rounded-2xl bg-red-500 px-6 py-3 font-semibold text-white shadow-lg shadow-red-500/30 transition-all duration-300 hover:bg-red-600 hover:scale-105 active:scale-95"
           >
             X
           </button>
         ) : (
           <button
-            onClick={handleSearch}
-            className="
-          rounded-2xl
-          bg-sky-500
-          px-6 py-3
-          font-semibold
-          text-white
-          shadow-lg
-          shadow-sky-500/30
-          transition-all
-          duration-300
-          hover:bg-sky-600
-          hover:scale-105
-          active:scale-95
-        "
+            onClick={handleClick}
+            className="rounded-2xl bg-sky-500 px-6 py-3 font-semibold text-white shadow-lg shadow-sky-500/30 transition-all duration-300 hover:bg-sky-600 hover:scale-105 active:scale-95"
           >
             Search
           </button>
