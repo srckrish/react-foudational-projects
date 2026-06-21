@@ -18,7 +18,7 @@ export default function Weather() {
       setLoading(true);
       setErrorMessage(null);
       const response = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=3&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
+        `http://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`,
       );
 
       if (!response.ok) setErrorMessage(response.statusText);
