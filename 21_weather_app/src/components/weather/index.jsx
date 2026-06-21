@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import Search from "../search";
+import SearchMenu from "../search/SearchMenu";
+import LocationWeather from "./LocationWeather";
+import LocationSuggestions from "../search/LocationSuggestions";
 
 export default function Weather() {
   const [search, setSearch] = useState("");
@@ -73,19 +75,9 @@ export default function Weather() {
       fetchWeatherData(latitude, longitude);
   }, [latitude, longitude]);
 
-  function getCurrentDate() {
-    const date = new Date();
-    return date.toLocaleDateString("en-us", {
-      weekday: "long",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
-  }
-
   return (
     <div className="min-h-screen w-full bg-linear-to-br from-slate-950 via-slate-900 to-slate-800 flex flex-col items-center justify-center px-6 py-10 text-white">
-      <Search
+      <SearchMenu
         search={search}
         setSearch={setSearch}
         weatherData={weatherData}
@@ -107,110 +99,15 @@ export default function Weather() {
       ) : null}
 
       {searchData !== null && showSearchData && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full max-w-5xl mt-20">
-          {searchData.map((data) => (
-            <div
-              key={`${data.lat}-${data.lon}`}
-              className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 shadow-lg hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
-            >
-              <div>
-                <h3 className="text-lg font-semibold text-white">
-                  {data?.name}
-                </h3>
-
-                <p className="text-sm text-slate-400">
-                  {data?.state ? `${data.state}, ` : ""}
-                  {data?.country}
-                </p>
-
-                <p className="mt-1 text-xs text-slate-500">
-                  Lat: {data?.lat?.toFixed(2)} | Lon: {data?.lon?.toFixed(2)}
-                </p>
-              </div>
-
-              <button
-                onClick={() => {
-                  setLatitude(data?.lat);
-                  setLongitude(data?.lon);
-                }}
-                className="w-full rounded-xl bg-sky-500 px-4 py-2 font-medium text-white shadow-lg shadow-sky-500/30 transition-all duration-300 hover:bg-sky-400 hover:scale-105 active:scale-95"
-              >
-                Select
-              </button>
-            </div>
-          ))}
-        </div>
+        <LocationSuggestions
+          searchData={searchData}
+          setLatitude={setLatitude}
+          setLongitude={setLongitude}
+        />
       )}
 
       {!loading && weatherData !== null ? (
-        <>
-          <div className="mt-8 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-slate-300 backdrop-blur-md">
-            {getCurrentDate()}
-          </div>
-
-          <div className="mt-6 w-full max-w-4xl rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md">
-            <div className="flex flex-col items-center gap-3 text-center">
-              <h1 className="text-4xl font-bold tracking-wide">
-                {weatherData?.name}
-              </h1>
-
-              <span className="rounded-full bg-sky-500/20 px-4 py-1 text-sm font-medium text-sky-300">
-                {weatherData?.sys?.country}
-              </span>
-
-              <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-400">
-                <span className="rounded-lg bg-slate-800 px-3 py-2">
-                  Latitude: {weatherData?.coord?.lat?.toFixed(2)}
-                </span>
-
-                <span className="rounded-lg bg-slate-800 px-3 py-2">
-                  Longitude: {weatherData?.coord?.lon?.toFixed(2)}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="rounded-2xl bg-sky-500/10 p-5 text-center shadow-lg">
-                <p className="text-sm text-slate-400">Temperature</p>
-                <h2 className="mt-2 text-3xl font-bold text-sky-400">
-                  {weatherData?.main?.temp}°C
-                </h2>
-              </div>
-
-              <div className="rounded-2xl bg-emerald-500/10 p-5 text-center shadow-lg">
-                <p className="text-sm text-slate-400">Pressure</p>
-                <h2 className="mt-2 text-3xl font-bold text-emerald-400">
-                  {weatherData?.main?.pressure} hPa
-                </h2>
-              </div>
-
-              <div className="rounded-2xl bg-violet-500/10 p-5 text-center shadow-lg">
-                <p className="text-sm text-slate-400">Humidity</p>
-                <h2 className="mt-2 text-3xl font-bold text-violet-400">
-                  {weatherData?.main?.humidity}%
-                </h2>
-              </div>
-            </div>
-
-            <div className="mt-6 rounded-2xl bg-white/5 p-5 text-center">
-              <p className="text-sm uppercase tracking-wider text-slate-400">
-                Weather Description
-              </p>
-              <h3 className="mt-2 text-xl font-semibold capitalize text-amber-300">
-                {weatherData?.weather[0]?.description}
-              </h3>
-            </div>
-
-            <div className="mt-4 rounded-2xl bg-white/5 p-5 text-center">
-              <p className="text-sm uppercase tracking-wider text-slate-400">
-                Wind Speed
-              </p>
-              <h3 className="mt-2 text-xl font-semibold text-cyan-300">
-                {weatherData?.wind?.speed} m/s
-              </h3>
-            </div>
-          </div>
-        </>
+        <LocationWeather weatherData={weatherData} />
       ) : null}
     </div>
   );
